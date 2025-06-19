@@ -1,3 +1,7 @@
+if (!localStorage.getItem("usuarioLogado")) {
+  window.location.href = "login.html";
+}
+
 // script.js atualizado com botão ≡ e ajuste de logout
 if (!localStorage.getItem("usuarioLogado")) {
   window.location.href = "login.html";
