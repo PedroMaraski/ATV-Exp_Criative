@@ -1,5 +1,7 @@
+const baseURL = "/ATV-Exp_Criative/";
 window.onload = function() {
   let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+window.location
 
   // Remove qualquer Admin antigo com CPF igual
   usuarios = usuarios.filter(u => u.cpf !== "12345678910");
@@ -65,7 +67,7 @@ function verificarSenha() {
   if (usuario) {
     localStorage.setItem("usuarioLogado", cpfTemp);
     localStorage.setItem("isAdmin", usuario.isAdmin ? "true" : "false");
-    window.location.href = "index.html";
+    window.location.href = baseURL + "index.html";
   } else {
     alert("Senha incorreta.");
   }
@@ -92,5 +94,5 @@ function finalizarCadastro() {
   localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
   alert("Cadastro realizado com sucesso!");
-  window.location.href = "index.html";
+  window.location.href = baseURL + "index.html";
 }

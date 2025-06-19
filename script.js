@@ -1,10 +1,11 @@
+const baseURL = "/ATV-Exp_Criative/";
 if (!localStorage.getItem("usuarioLogado")) {
-  window.location.href = "login.html";
+  window.location.href = baseURL + "login.html";
 }
 
 // script.js atualizado com botão ≡ e ajuste de logout
 if (!localStorage.getItem("usuarioLogado")) {
-  window.location.href = "login.html";
+  window.location.href = baseURL + "login.html";
 }
 if (localStorage.getItem("isAdmin") === "true") {
   // Liberar função administrativa
@@ -173,7 +174,7 @@ function exibirProblemasPorCategoria(categoria) {
 function logout() {
   localStorage.removeItem("usuarioLogado");
   localStorage.removeItem("isAdmin");
-  window.location.href = "login.html";
+  window.location.href = baseURL + "login.html";
 }
 
 window.onload = () => {
