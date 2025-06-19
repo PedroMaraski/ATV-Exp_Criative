@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <if (!localStorage.getItem("usuarioLogado")) {
+  window.location.href = "login.html";
+  }></if>
   <meta charset="UTF-8" />
   <title>Arruma Meu Bairro</title>
   <link rel="stylesheet" href="style.css" />

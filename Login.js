@@ -1,3 +1,4 @@
+const baseURL = "/ATV-Exp_Criative/";
 window.onload = function() {
   let usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 window.location

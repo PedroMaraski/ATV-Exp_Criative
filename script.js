@@ -1,3 +1,4 @@
+const baseURL = "/ATV-Exp_Criative/";
 if (!localStorage.getItem("usuarioLogado")) {
   window.location.href = baseURL + "login.html";
 }
