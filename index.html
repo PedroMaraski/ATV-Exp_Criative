@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Arruma Meu Bairro</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <meta charset="UTF-8">
+  <title>Login - Arruma Meu Bairro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('fundo-login.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    h1#site-title {
+      color: rgba(102, 24, 190, 0.808);
+      font-size: 36px;
+      margin-bottom: 20px;
+      margin-top: 40px;       /* Adicione esta linha */
+      text-shadow: 4px 4px 6px rgba(0,0,0,0.6);
+      position: absolute;      /* Faz o título sair do fluxo normal da página */
+      top: 30px;               /* Distância do topo da tela */
+      left: 50%;               /* Centraliza horizontalmente */
+      transform: translateX(-50%);
+    }
+    .login-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .login-container input, .login-container button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .login-container button {
+      background-color: rgba(102, 24, 190, 0.808);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .login-container button:hover {
+      background-color: rgba(102, 24, 190, 0.808);
+    }
+    .hidden { display: none; }
+  </style>
 </head>
 <body>
-  <div class="topbar">
-  <input type="text" id="search-input" placeholder="Digite o nome da rua...">
-  <button id="search-btn" onclick="buscarEndereco()">Buscar</button>
-  <button id="logout-btn" onclick="logout()">Sair</button>
-</div>
 
-  <div id="map"></div>
-  <button id="menu-btn" onclick="toggleSidebar()">≡</button>
+  <!-- Título do site -->
+  <h1 id="site-title">ARRUMA MEU BAIRRO!</h1>
 
-  <div id="sidebar" class="hidden">
-    <h3>Endereço selecionado</h3>
-    <p id="logradouro"></p>
-    <p id="cidade"></p>
-    <p id="cep"></p>
-    <button id="add-btn" onclick="abrirFormulario()" style="margin-top: 20px;">+ Registrar Problema</button>
-    <hr>
-    <h3>Filtrar por tipo</h3>
-    <div id="category-filter"></div>
-    <div id="filtered-list" style="margin-top: 10px;"></div>
-  </div>
+  <div class="login-container">
+    <!-- Etapa 1: Escolher ação -->
+    <div id="step-choose">
+      <h2>Bem-vindo!</h2>
+      <button onclick="iniciarLogin()">Já tenho conta</button>
+      <button onclick="iniciarCadastro()">Quero me registrar</button>
+    </div>
 
-  <div id="form-modal" class="modal hidden">
-    <div class="modal-content">
-      <span id="close-btn">&times;</span>
-      <h2>Registrar Problema</h2>
-      <form id="report-form">
-        <label for="description">Descrição:</label>
-        <textarea id="description" required></textarea>
+    <!-- Etapa 2: Digitar CPF -->
+    <div id="step-cpf" class="hidden">
+      <h2>Digite seu CPF</h2>
+      <input type="text" id="cpf" placeholder="Digite o CPF">
+      <button onclick="verificarCPF()">Continuar</button>
+    </div>
 
-        <label for="category">Tipo:</label>
-        <select id="category">
-          <option value="Buraco">Buraco</option>
-          <option value="Iluminação">Iluminação</option>
-          <option value="Obras">Obras</option>
-          <option value="Lixo Irregular">Lixo Irregular</option>
-          <option value="Árvore Caída">Árvore Caída</option>
-          <option value="Sinalização">Sinalização Falta/Quebrada</option>
-          <option value="Calçada">Calçada danificada</option>
-          <option value="Vazamento">Vazamento de Água</option>
-          <option value="Esgoto">Esgoto a céu aberto</option>
-          <option value="Ruído">Ruído excessivo</option>
-          <option value="Semáforo">Semáforo quebrado</option>
-          <option value="Fiação">Fiação caída</option>
-          <option value="Zona de risco">Zona de risco</option>
-          <option value="Outros">Outros</option>
-        </select>
+    <!-- Etapa 3: Digitar Senha -->
+    <div id="step-senha" class="hidden">
+      <h2>Digite sua senha</h2>
+      <input type="password" id="senha" placeholder="Senha">
+      <button onclick="verificarSenha()">Entrar</button>
+    </div>
 
-        <label for="photo">Foto:</label>
-        <input type="file" id="photo" accept="image/*" />
-        <div id="photo-preview"></div>
-
-        <button type="submit" class="submit-btn">Enviar</button>
-      </form>
+    <!-- Etapa 4: Criar Senha (Cadastro) -->
+    <div id="step-cadastro" class="hidden">
+      <h2>Crie sua senha</h2>
+      <input type="password" id="novaSenha" placeholder="Defina uma senha">
+      <button onclick="finalizarCadastro()">Registrar</button>
     </div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
